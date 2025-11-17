@@ -17,8 +17,21 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-app.post("/webhook", express.json(), (req, res) => {
+import axios from "axios";
+
+app.post("/webhook", express.json(), async (req, res) => {
   console.log("POST /webhook:", JSON.stringify(req.body).slice(0,1500));
+
+  try {
+    await axios.post(
+      "https://hook.eu1.make.com/t5evx2td7jkp97vsfu42pfpumuzjseiw",
+      req.body
+    );
+    console.log("➡ Successfully sent to Make.com");
+  } catch (error) {
+    console.error("❌ Error sending to Make.com:", error.message);
+  }
+
   res.sendStatus(200);
 });
 
